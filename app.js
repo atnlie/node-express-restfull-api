@@ -55,7 +55,7 @@ employee.save()
 );
 */
 
-routes(app);
+routes(app, mongoose, schemas);
 
 // MiddleWare
 app.get('/mw',
@@ -82,6 +82,8 @@ app.post('/mw',
 
 // Create route in the root
 app.get('/', (req, res) => {
+    let val = req.query.name;
+    console.log('PARAM adalah ' + val);
     res.send(`Welcome to node server!`);
 });
 
