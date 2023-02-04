@@ -111,11 +111,34 @@ const deleteEmployee = (req, res) => {
     }
 }
 
+const newEmployee = (req, res) => {
+    let employee = new personModel(req.body);
+    console.log(`Data: ${employee}`);
+    if (employee !== null) {
+        employee.save((err, personModel) => {
+            if (err) {
+                const errMessage = {
+                    'message': 'Data not found.',
+                    'error': err
+                };
+                res.send(errMessage);
+            }
+            res.json(employee);
+        });
+    } else {
+        res.send({
+            message: 'New data is {}'
+        });
+    }
+};
+
 module.exports = {
     getAllEmployees,
     getEmployees,
     getEmployeeByName,
     getEmployeeById,
     updateEmployee,
-    deleteEmployee
+    deleteEmployee,
+    newEmployee,
+    getMiddleware
 };
