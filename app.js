@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 // Setup JSON Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static('public'));
 
 // Setup mongodb connection
 mongoose.set('strictQuery', false);
