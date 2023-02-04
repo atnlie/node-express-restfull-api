@@ -5,4 +5,15 @@ Dalam code ini dibuatkan 3 folder untuk memisahkan logic, route dan juga model. 
 
 Untuk mendapatkan code yang sudah dibagi menjadi MVC, kamu dapat menggunakan branch 'mvc-code'
 
-Atnlie - 2023
+
+
+#### Required:
+- Express
+- NodeJS
+- NPM
+- Nodemon
+- Mogoose
+- MongoDB community
+
+
+###### Atnlie - 2023
