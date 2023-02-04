@@ -1,10 +1,8 @@
-// const mongoose = require('mongoose');
-// const schemas = require('../models/dataModel');
 const employees = require('../controllers/dataController');
 
 const routes = (app, mongoose, model) => {
     app.route('/info')
-        .get((req,res) => {
+        .get((req, res) => {
             res.send('Get info data');
         })
         .post((req, res) => {
@@ -20,6 +18,7 @@ const routes = (app, mongoose, model) => {
             res.send('Patch info data');
         });
 
+    // Route + logic
     // app.route('/employees')
     //     .get((req, res) => {
     //         const personModel = mongoose.model('employee', model.personSchema);
@@ -32,10 +31,14 @@ const routes = (app, mongoose, model) => {
     //             }
     //         });
     //     });
+
+    // split to route and logic
     app.route('/employees')
         .get(employees.getAllEmployees);
-    app.route('/employees/:employeeId')
+    app.route('/employee/:employeeId')
         .get(employees.getEmployeeById);
+    app.route('/employee/:employeeId')
+        .put(employees.updateEmployee);
     app.route('/getEmployees')
         .get(employees.getEmployees);
     app.route('/getEmployeeByName')

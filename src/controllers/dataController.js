@@ -45,11 +45,12 @@ const getEmployeeById = (req, res) => {
     console.log('EmployeeId ' + eId);
     personModel.findById(eId, (err, employees) => {
         if (err) {
-            const objVal = { "xx": "Data Not Found." };
+            // In-case you want to custom your error response
+            // const objVal = { "info": "Data Not Found." };
             // let errObj = { ...objVal, ...err };
             // res.send(errObj);
             const errMessage = {
-                'message' : 'Data not found.',
+                'message': 'Data not found.',
                 'error': err
             };
             res.send(errMessage);
@@ -59,4 +60,27 @@ const getEmployeeById = (req, res) => {
     });
 }
 
-module.exports = {getAllEmployees, getEmployees, getEmployeeByName, getEmployeeById};
+const updateEmployee = (req, res) => {
+    let eId = req.params.employeeId || '';
+
+    if (eId !== '') {
+        personModel.findOneAndUpdate({_id: eId}, req.body, {new: true}, (err, employees) => {
+            if (err) {
+                const errMessage = {
+                    'message': 'Data not found.',
+                    'error': err
+                };
+                res.send(errMessage);
+            }
+            res.json(employees);
+        });
+    } else {
+        const errMessage = {
+            'message': 'Data not found.',
+            'info': 'Please make sure the EmployeeId is valid'
+        };
+        res.send(errMessage);
+    }
+}
+
+module.exports = {getAllEmployees, getEmployees, getEmployeeByName, getEmployeeById, updateEmployee};
