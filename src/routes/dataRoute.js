@@ -38,6 +38,8 @@ const routes = (app, mongoose, model) => {
     app.route('/employee/:employeeId')
         .get(employees.getEmployeeById);
     app.route('/employee/:employeeId')
+        .delete(employees.deleteEmployee);
+    app.route('/employee/:employeeId')
         .put(employees.updateEmployee);
     app.route('/getEmployees')
         .get(employees.getEmployees);

@@ -83,4 +83,39 @@ const updateEmployee = (req, res) => {
     }
 }
 
-module.exports = {getAllEmployees, getEmployees, getEmployeeByName, getEmployeeById, updateEmployee};
+const deleteEmployee = (req, res) => {
+    let eId = req.params.employeeId || '';
+
+    if (eId !== '') {
+        personModel.findOneAndDelete({_id: eId}, (err, employee) => {
+            if (err) {
+                const errMessage = {
+                    'message': 'Data not found.',
+                    'error': err
+                };
+                res.send(errMessage);
+            }
+            res.json({
+                message: 'EmployeeId ' + eId + ' is deleted.',
+                info: employee,
+                error: {}
+            });
+        });
+    } else {
+        const errMessage = {
+            'message': 'Data not found.',
+            'info': 'Please make sure the EmployeeId is valid'
+        };
+
+        res.send(errMessage);
+    }
+}
+
+module.exports = {
+    getAllEmployees,
+    getEmployees,
+    getEmployeeByName,
+    getEmployeeById,
+    updateEmployee,
+    deleteEmployee
+};
