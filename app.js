@@ -4,6 +4,11 @@ const PORT = process.env.PORT || 3000;
 const HOST = '127.0.0.1';
 const routes = require('./src/routes/dataRoute');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+// Setup JSON Body Parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 // Setup mongodb connection
 mongoose.set('strictQuery', false);
@@ -11,6 +16,22 @@ mongoose.connect('mongodb://localhost/test', {
     useNewUrlParser: true
 });
 
+// setup schema
+const schemas = require('./src/models/dataModel');
+const personModel = mongoose.model('employee', schemas.personSchema);
+
+app.post('/newEmployee', (req, res) => {
+    let employee = new personModel(req.body);
+    console.log(`Ini apa: ${employee}`);
+    employee.save((err, personModel) => {
+        if (err) {
+            res.send(err);
+        }
+        res.json(employee);
+    })
+});
+
+/*
 //model
 const Person = mongoose.model(
     'Person', {
@@ -32,20 +53,21 @@ employee.save()
         console.log('Done');
     }
 );
+*/
 
 routes(app);
 
 // MiddleWare
 app.get('/mw',
     (req, res, next) => {
-    console.log('Req Metode: ', req.method);
-    next();
-}, (req, res, next) => {
-    console.log('Req Original URL: ', req.originalUrl);
-    next();
-}, (req, res, next) => {
-    res.send('Request was successful');
-});
+        console.log('Req Metode: ', req.method);
+        next();
+    }, (req, res, next) => {
+        console.log('Req Original URL: ', req.originalUrl);
+        next();
+    }, (req, res, next) => {
+        res.send('Request was successful');
+    });
 
 app.post('/mw',
     (req, res, next) => {
@@ -82,5 +104,5 @@ app.patch('/', (req, res) => {
 
 // Server configuration
 app.listen(PORT, HOST, () => {
-   console.log(`Server Running on  http:/${HOST}:${PORT}`);
+    console.log(`Server Running on  http:/${HOST}:${PORT}`);
 });
