@@ -6,6 +6,29 @@ const routes = require('./src/routes/dataRoute');
 
 routes(app);
 
+// MiddleWare
+app.get('/mw',
+    (req, res, next) => {
+    console.log('Req Metode: ', req.method);
+    next();
+}, (req, res, next) => {
+    console.log('Req Original URL: ', req.originalUrl);
+    next();
+}, (req, res, next) => {
+    res.send('Request was successful');
+});
+
+app.post('/mw',
+    (req, res, next) => {
+        console.log('Req Metode: ', req.method);
+        next();
+    }, (req, res, next) => {
+        console.log('Req Original URL: ', req.originalUrl);
+        next();
+    }, (req, res, next) => {
+        res.send('Request was successful');
+    });
+
 // Create route in the root
 app.get('/', (req, res) => {
     res.send(`Welcome to node server!`);
@@ -27,6 +50,8 @@ app.patch('/', (req, res) => {
     res.send('Patch Method to node server!');
 });
 
+
+// Server configuration
 app.listen(PORT, HOST, () => {
    console.log(`Server Running on  http:/${HOST}:${PORT}`);
 });
