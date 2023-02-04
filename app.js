@@ -3,6 +3,35 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = '127.0.0.1';
 const routes = require('./src/routes/dataRoute');
+const mongoose = require('mongoose');
+
+// Setup mongodb connection
+mongoose.set('strictQuery', false);
+mongoose.connect('mongodb://localhost/test', {
+    useNewUrlParser: true
+});
+
+//model
+const Person = mongoose.model(
+    'Person', {
+        name: String,
+        age: Number,
+        hobby: String,
+    }
+);
+
+const employee = new Person({
+    name: 'Anton',
+    age: '17',
+    hobby: 'jalan-jalan naik mobil'
+});
+
+employee.save()
+    .then((res) => {
+        console.log(`res: ${res}`)
+        console.log('Done');
+    }
+);
 
 routes(app);
 
