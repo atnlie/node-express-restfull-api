@@ -3,14 +3,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const routes = require('./src/routes/dataRoute');
-const mldRoutes = require('./src/routes/middlewareRoute');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = '127.0.0.1';
-// const appRouter = express.Router();
 
-// app.use(app);
 
 // Setup JSON Body Parser
 app.use(bodyParser.json());
@@ -28,8 +25,6 @@ mongoose.connect('mongodb://localhost/test', {
 
 // routes setup
 routes(app);
-
-// mldRoutes(appRouter);
 
 // MiddleWare
 // app.get('/mw',
