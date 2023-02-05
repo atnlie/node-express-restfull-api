@@ -60,6 +60,25 @@ const getEmployeeById = (req, res) => {
     });
 }
 
+const getEmployeePagination = (req, res) => {
+    let intPage = req.params.pageId || 5;
+    let intSkip = req.params.skipId || 0;
+    console.log('Page ' + intPage);
+    console.log('Skip ' + intSkip);
+
+    personModel.find((err, employees) => {
+        if (err) {
+            const errMessage = {
+                'message': 'Data not found.',
+                'error': err
+            };
+            res.send(errMessage);
+        } else {
+            res.json(employees);
+        }
+    }).limit(intPage).skip(intSkip);
+}
+
 const updateEmployee = (req, res) => {
     let eId = req.params.employeeId || '';
 
@@ -140,4 +159,5 @@ module.exports = {
     updateEmployee,
     deleteEmployee,
     newEmployee,
+    getEmployeePagination
 };

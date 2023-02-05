@@ -31,6 +31,9 @@ const routes = (app) => {
     app.route('/employee/:employeeId')
         .put(employees.updateEmployee);
 
+    app.route('/employee/:pageId/:skipId')
+        .get(employees.getEmployeePagination);
+
     app.route('/getEmployees')
         .get(employees.getEmployees);
     app.route('/getEmployeeByName')
