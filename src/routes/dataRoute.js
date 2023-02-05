@@ -1,4 +1,6 @@
 const employees = require('../controllers/dataController');
+const mw = require('../controllers/mwController');
+const {md2} = require("../controllers/mwController");
 
 const routes = (app) => {
     app.route('/info')
@@ -36,8 +38,19 @@ const routes = (app) => {
 
     app.route('/newEmployee')
         .post(employees.newEmployee);
-    app.route('/getMiddleware')
-        .get(employees.getMiddleware);
+
+    app.route('/mw')
+        .get((req, res, next) => {
+           console.log('What his');
+           next();
+        }, (req, res, next) => {
+            res.send('Bismillah');
+        });
+
+    app.route('/mw-router')
+        .get(mw.md1, md2, (req, res) => {
+            res.send('Done Bro!');
+        });
 }
 
 module.exports = routes;

@@ -140,5 +140,4 @@ module.exports = {
     updateEmployee,
     deleteEmployee,
     newEmployee,
-    getMiddleware
 };
