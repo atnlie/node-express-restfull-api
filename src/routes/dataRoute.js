@@ -1,6 +1,8 @@
 const employees = require('../controllers/dataController');
+const mw = require('../controllers/mwController');
+const {md2} = require("../controllers/mwController");
 
-const routes = (app, mongoose, model) => {
+const routes = (app) => {
     app.route('/info')
         .get((req, res) => {
             res.send('Get info data');
@@ -18,34 +20,40 @@ const routes = (app, mongoose, model) => {
             res.send('Patch info data');
         });
 
-    // Route + logic
-    // app.route('/employees')
-    //     .get((req, res) => {
-    //         const personModel = mongoose.model('employee', model.personSchema);
-    //         console.log('DATA -> ' + personModel);
-    //         personModel.find({}, (err, employees) => {
-    //             if (err) {
-    //                 res.send(err);
-    //             } else {
-    //                 res.json(employees);
-    //             }
-    //         });
-    //     });
-
     // split to route and logic
     app.route('/employees')
         .get(employees.getAllEmployees);
+
     app.route('/employee/:employeeId')
         .get(employees.getEmployeeById);
     app.route('/employee/:employeeId')
         .delete(employees.deleteEmployee);
     app.route('/employee/:employeeId')
         .put(employees.updateEmployee);
+
+    app.route('/employee/:pageId/:skipId')
+        .get(employees.getEmployeePagination);
+
     app.route('/getEmployees')
         .get(employees.getEmployees);
     app.route('/getEmployeeByName')
         .get(employees.getEmployeeByName);
 
+    app.route('/newEmployee')
+        .post(employees.newEmployee);
+
+    app.route('/mw')
+        .get((req, res, next) => {
+           console.log('What his');
+           next();
+        }, (req, res, next) => {
+            res.send('Bismillah');
+        });
+
+    app.route('/mw-router')
+        .get(mw.md1, md2, (req, res) => {
+            res.send('Done Bro!');
+        });
 }
 
 module.exports = routes;
